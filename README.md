@@ -50,21 +50,18 @@ nlp-ai-career-connect/
 
 ## ⚙️ Installation & Setup
 
-```text
-Clone the Repository:
-
-git clone [https://github.com/yourusername/nlp-ai-career-connect.git](https://github.com/yourusername/nlp-ai-career-connect.git)
-cd nlp-ai-career-connect
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/yourusername/nlp-ai-career-connect.git
+   cd nlp-ai-career-connect
 
 ## Establish a Virtual Environment:
 
 ```text
 python -m venv venv
-source venv/bin/activate
-# On Windows use: venv\Scripts\activate
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
 
-## Install Dependencies:
-
-```text
-pip install -r requirements.txt
-python -m spacy download en_core_web_sm
+3. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   python -m spacy download en_core_web_sm

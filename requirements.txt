@@ -1,0 +1,9 @@
+Flask
+pymongo
+pdfminer.six
+nltk
+scikit-learn
+spacy
+flask-session
+reportlab
+pdfkit

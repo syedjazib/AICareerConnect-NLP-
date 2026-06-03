@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CareerConnect | My Applications</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(17, 24, 39, 0.95);
+            padding: 15px 0;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        }
+
+        .brand {
+            color: #60a5fa;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .page-header {
+            margin-top: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .page-header h2 {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .page-header p {
+            color: #9ca3af;
+        }
+
+        .stats-box {
+            background: #111827;
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 0 18px rgba(0,0,0,0.35);
+            height: 100%;
+        }
+
+        .big-stat {
+            font-size: 30px;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+
+        .application-card {
+            background: #111827;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 18px rgba(0,0,0,0.35);
+            transition: 0.3s;
+        }
+
+        .application-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .job-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+
+        .status-badge {
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .applied {
+            background: #2563eb;
+        }
+
+        .shortlisted {
+            background: #22c55e;
+        }
+
+        .rejected {
+            background: #ef4444;
+        }
+
+        .pending {
+            background: #f59e0b;
+        }
+
+        .date-box {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .action-btn {
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .empty-box {
+            background: #111827;
+            padding: 40px;
+            border-radius: 18px;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a href="/employee_dashboard" class="brand">🚀 AI CareerConnect</a>
+
+        <div>
+            <a href="/matched_jobs" class="btn btn-outline-light me-2">Matched Jobs</a>
+            <a href="/logout" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h2>📄 My Job Applications</h2>
+        <p>Track your applications, hiring progress, and career opportunities</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="stats-box">
+                <div class="big-stat">{{ applications|length }}</div>
+                <p>Total Applications</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stats-box">
+                <div class="big-stat">
+                    {{ applications | selectattr('status', 'equalto', 'Shortlisted') | list | length }}
+                </div>
+                <p>Shortlisted</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stats-box">
+                <div class="big-stat">
+                    {{ applications | selectattr('status', 'equalto', 'Pending') | list | length }}
+                </div>
+                <p>Pending Review</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- APPLICATIONS -->
+    {% if applications %}
+        {% for app in applications %}
+        <div class="application-card">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div>
+                    <div class="job-title">
+                        <i class="bi bi-briefcase-fill"></i> {{ app.job_title }}
+                    </div>
+
+                    <div class="date-box mt-2">
+                        <i class="bi bi-calendar-event"></i>
+                        Applied on: {{ app.created_at.strftime('%d %b %Y') if app.created_at else 'N/A' }}
+                    </div>
+                </div>
+
+                <div>
+                    {% if app.status == "Applied" %}
+                        <span class="status-badge applied">Applied</span>
+                    {% elif app.status == "Shortlisted" %}
+                        <span class="status-badge shortlisted">Shortlisted</span>
+                    {% elif app.status == "Rejected" %}
+                        <span class="status-badge rejected">Rejected</span>
+                    {% else %}
+                        <span class="status-badge pending">Pending</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <hr class="text-secondary">
+
+            <p>
+                <strong>🧠 Application Status:</strong>
+                Your application for <b>{{ app.job_title }}</b> is currently
+                <b>{{ app.status }}</b>.
+            </p>
+
+            <div class="mt-3">
+                <a href="/matched_jobs" class="btn btn-outline-info action-btn">
+                    View Similar Jobs
+                </a>
+            </div>
+
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-box">
+            <h4>🚀 No Applications Yet</h4>
+            <p>You haven’t applied for any jobs yet. Start by exploring AI matched opportunities.</p>
+
+            <a href="/matched_jobs" class="btn btn-primary mt-3">
+                Explore Jobs
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    © 2026 AI CareerConnect — Smart Career Application Tracker
+</footer>
+
+</body>
+</html>

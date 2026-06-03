@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Applicants | AI CareerConnect</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(15, 23, 42, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --employer-accent: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --sidebar-width: 280px;
+        }
+
+        body {
+            background-color: #020617;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0; top: 0;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(25px);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem 1.5rem;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 3rem;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            padding: 0.9rem 1.2rem;
+            border-radius: 14px;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .nav-link i { margin-right: 14px; font-size: 1.2rem; }
+        .nav-link:hover, .nav-link.active { background: rgba(255, 255, 255, 0.05); color: #fff; }
+        
+        .nav-link.active {
+            background: var(--employer-accent);
+            color: white;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2.5rem 3.5rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 1.5rem;
+        }
+
+        /* --- Applicant Specific UI --- */
+        .applicant-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: 0.3s;
+        }
+
+        .applicant-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: scale(1.01);
+            border-color: #6366f1;
+        }
+
+        .avatar-box {
+            width: 48px;
+            height: 48px;
+            background: var(--employer-accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .email-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-pill {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 10px 20px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        @media (max-width: 1100px) {
+            .sidebar { width: 80px; padding: 2rem 0.5rem; }
+            .sidebar .brand, .sidebar span { display: none; }
+            .main-content { margin-left: 80px; padding: 2rem; }
+            .nav-link { justify-content: center; }
+            .nav-link i { margin-right: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a href="/employer_dashboard" class="brand">🚀 <span style="color: #fff">Talent</span><span style="color: #6366f1">AI</span></a>
+    
+    <nav>
+        <a href="/employer_dashboard" class="nav-link"><i class="bi bi-speedometer2"></i> <span>Dashboard</span></a>
+        <a href="#" class="nav-link active"><i class="bi bi-person-badge"></i> <span>AI Candidates</span></a>
+        <a href="/resume_logs" class="nav-link"><i class="bi bi-journal-text"></i> <span>Resume Logs</span></a>
+        <a href="#" class="nav-link"><i class="bi bi-gear"></i> <span>Hiring Settings</span></a>
+        
+        <div class="mt-5 pt-5 border-top border-secondary">
+            <a href="/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-left"></i> <span>Sign Out</span></a>
+        </div>
+    </nav>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    
+    <header class="mb-5">
+        <h5 class="text-secondary mb-0">Candidate Pipeline</h5>
+        <h2 class="fw-bold">Job Applicants Dashboard 👋</h2>
+    </header>
+
+    <!-- SUMMARY SECTION -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="glass-card d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <div class="stat-pill me-4">
+                        <span class="text-secondary small d-block">ACTIVE PIPELINE</span>
+                        <span class="fs-3 fw-bold">{{ applicants|length }} Candidates</span>
+                    </div>
+                    <p class="text-secondary mb-0 d-none d-md-block">Track stages, review qualifications, and manage interview invites.</p>
+                </div>
+                <button class="btn btn-outline-light btn-sm" style="border-radius: 10px;"><i class="bi bi-download me-2"></i>Export List</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LISTING SECTION -->
+    <div class="glass-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold mb-0">Recent Applications</h5>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-dark border-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Filter by Status
+                </button>
+            </div>
+        </div>
+
+        {% if applicants|length > 0 %}
+            {% for a in applicants %}
+            <div class="applicant-item">
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-box me-3">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div>
+                                <div class="email-text">{{ a.email }}</div>
+                                <div class="text-secondary small"><i class="bi bi-briefcase me-1"></i> Applied for <strong>{{ a.job_title }}</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 text-md-center mt-3 mt-md-0">
+                        {% if a.status == "Applied" %}
+                            <span class="status-badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25">Applied</span>
+                        {% elif a.status == "Shortlisted" %}
+                            <span class="status-badge bg-success bg-opacity-25 text-success border border-success border-opacity-25">Shortlisted</span>
+                        {% elif a.status == "Interview" %}
+                            <span class="status-badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25">Interview</span>
+                        {% elif a.status == "Rejected" %}
+                            <span class="status-badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25">Rejected</span>
+                        {% else %}
+                            <span class="status-badge bg-secondary text-white">{{ a.status }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                        <button class="btn btn-sm btn-outline-light me-2" style="border-radius: 8px;">View Profile</button>
+                        <button class="btn btn-sm btn-light" style="border-radius: 8px; background: white; color: black;">Update</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-person-x fs-1 text-secondary mb-3 d-block"></i>
+                <h5 class="text-secondary">No applicants found in the current pipeline.</h5>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer class="mt-5 py-4 border-top border-secondary text-center">
+        <small class="text-secondary">© 2026 AI CareerConnect. Recruitment Intelligence Engine Active.</small>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

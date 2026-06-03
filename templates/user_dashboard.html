@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+</head>
+<body>
+
+<h1>👨‍🎓 Welcome {{ user }}</h1>
+
+<a href="/logout">Logout</a>
+
+<hr>
+
+<h2>AI Resume Analyzer</h2>
+
+<form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="resume" required>
+    <button type="submit">Analyze Resume</button>
+</form>
+
+<hr>
+
+<h3>📌 Features</h3>
+<ul>
+    <li>AI Skill Extraction</li>
+    <li>Job Matching System</li>
+    <li>Career Suggestions</li>
+</ul>
+
+</body>
+</html>

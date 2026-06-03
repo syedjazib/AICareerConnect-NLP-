@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Dashboard | AI CareerConnect</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(15, 23, 42, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --employer-accent: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --sidebar-width: 280px;
+        }
+
+        body {
+            background-color: #020617;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0; top: 0;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(25px);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem 1.5rem;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 3rem;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            padding: 0.9rem 1.2rem;
+            border-radius: 14px;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .nav-link i { margin-right: 14px; font-size: 1.2rem; }
+        .nav-link:hover, .nav-link.active { background: rgba(255, 255, 255, 0.05); color: #fff; }
+        
+        .nav-link.active {
+            background: var(--employer-accent);
+            color: white;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* --- Main Layout --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2.5rem 3.5rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* --- Stats Styling --- */
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: #818cf8;
+            font-size: 1.4rem;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Action Cards --- */
+        .action-card {
+            padding: 2rem;
+            height: 100%;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px);
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.03);
+        }
+
+        .action-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .btn-employer {
+            background: var(--employer-accent);
+            border: none;
+            border-radius: 12px;
+            padding: 10px 24px;
+            font-weight: 600;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .btn-employer:hover {
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+            transform: scale(1.05);
+            color: white;
+        }
+
+        /* --- Activity Table --- */
+        .table-glass {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+
+        .table-glass tr {
+            background: rgba(255, 255, 255, 0.02);
+            transition: 0.3s;
+        }
+
+        .table-glass tr:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .table-glass td {
+            padding: 1.2rem;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .table-glass td:first-child { border-left: 1px solid var(--glass-border); border-radius: 16px 0 0 16px; }
+        .table-glass td:last-child { border-right: 1px solid var(--glass-border); border-radius: 0 16px 16px 0; }
+
+        .status-pill {
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pulse-ai {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #6366f1;
+            border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 0 10px #6366f1;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            70% { transform: scale(1.2); opacity: 0.3; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+
+        @media (max-width: 1100px) {
+            .sidebar { width: 80px; padding: 2rem 0.5rem; }
+            .sidebar .brand, .sidebar span { display: none; }
+            .main-content { margin-left: 80px; padding: 2rem; }
+            .nav-link i { margin-right: 0; font-size: 1.5rem; }
+            .nav-link { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a href="#" class="brand">🚀 <span style="color: #fff">Talent</span><span style="color: #6366f1">AI</span></a>
+    
+    <nav>
+        <a href="#" class="nav-link active"><i class="bi bi-speedometer2"></i> <span>Dashboard</span></a>
+        <a href="/view_applicants" class="nav-link"><i class="bi bi-person-badge"></i> <span>AI Candidates</span></a>
+        <a href="/resume_logs" class="nav-link"><i class="bi bi-journal-text"></i> <span>Resume Logs</span></a>
+        
+        <div class="mt-5 pt-5 border-top border-secondary">
+            <a href="/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-left"></i> <span>Sign Out</span></a>
+        </div>
+    </nav>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    
+    <!-- HEADER -->
+    <header class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h5 class="text-secondary mb-0">Recruitment Overview</h5>
+            <h2 class="fw-bold">Welcome, {{ user }} 👋</h2>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <a href="/add_job" class="btn btn-employer"><i class="bi bi-plus-lg me-2"></i>Post New Job</a>
+            <div class="glass-card p-1 d-flex align-items-center" style="border-radius: 50px; padding-right: 15px !important;">
+                <img src="https://ui-avatars.com/api/?name={{ user }}&background=6366f1&color=fff" class="rounded-circle me-2" width="40">
+                <small class="fw-bold d-none d-xl-block">Admin Mode</small>
+            </div>
+        </div>
+    </header>
+
+    <!-- STATS ROW -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="glass-card stat-card">
+                <div class="stat-icon"><i class="bi bi-briefcase"></i></div>
+                <div class="stat-value">{{ total_jobs }}</div>
+                <div class="stat-label">Active Jobs</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="glass-card stat-card">
+                <div class="stat-icon"><i class="bi bi-people"></i></div>
+                <div class="stat-value">{{ total_applicants }}</div>
+                <div class="stat-label">Applications</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="glass-card stat-card">
+                <div class="stat-icon" style="color: #10b981; background: rgba(16,185,129,0.1);"><i class="bi bi-patch-check"></i></div>
+                <div class="stat-value text-success">{{ shortlisted }}</div>
+                <div class="stat-label">AI Shortlisted</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="glass-card stat-card">
+                <div class="stat-icon" style="color: #a855f7; background: rgba(168,85,247,0.1);"><i class="bi bi-chat-dots"></i></div>
+                <div class="stat-value" style="color: #c084fc;">{{ interviews }}</div>
+                <div class="stat-label">Interviews</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTION GRID -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="glass-card action-card" onclick="location.href='/add_job'">
+                <span class="action-icon">🎯</span>
+                <h4 class="fw-bold">Create Opening</h4>
+                <p class="text-secondary small">Launch a new job position and start receiving AI-ranked applications.</p>
+                <div class="text-primary fw-bold small mt-3">POST JOB NOW →</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card action-card" onclick="location.href='/view_applicants'">
+                <span class="action-icon">🤖</span>
+                <h4 class="fw-bold">AI Candidate Matching</h4>
+                <p class="text-secondary small">Browse candidates ranked by our neural matching engine based on JD overlap.</p>
+                <div class="text-info fw-bold small mt-3">VIEW MATCHES →</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card action-card" onclick="location.href='/resume_logs'">
+                <span class="action-icon">📑</span>
+                <h4 class="fw-bold">Audit Logs</h4>
+                <p class="text-secondary small">Review full historical logs of all resume uploads and system extractions.</p>
+                <div class="text-purple fw-bold small mt-3" style="color: #a855f7;">OPEN HISTORY →</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECENT APPLICATIONS TABLE -->
+    <div class="glass-card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold mb-0"><span class="pulse-ai"></span>Neural Intake Feed</h4>
+            <button class="btn btn-sm btn-outline-secondary" style="border-radius: 8px;">View All Feed</button>
+        </div>
+
+        <table class="table-glass">
+            <thead>
+                <tr style="background: transparent;">
+                    <th class="text-secondary small fw-bold px-4">CANDIDATE</th>
+                    <th class="text-secondary small fw-bold">TARGET POSITION</th>
+                    <th class="text-secondary small fw-bold text-center">STATUS</th>
+                    <th class="text-secondary small fw-bold text-end px-4">ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if recent_apps %}
+                    {% for app in recent_apps %}
+                    <tr>
+                        <td class="px-4">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-3" style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-person text-secondary"></i>
+                                </div>
+                                <div class="fw-bold">{{ app.name }}</div>
+                            </div>
+                        </td>
+                        <td class="fw-medium">{{ app.job_title }}</td>
+                        <td class="text-center">
+                            <span class="status-pill" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">{{ app.status }}</span>
+                        </td>
+                        <td class="text-end px-4">
+                            <button class="btn btn-sm btn-outline-light border-secondary" style="border-radius: 6px;">Profile</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-5">No recent activity detected.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="mt-5 py-4 border-top border-secondary text-center">
+        <small class="text-secondary">© 2026 AI CareerConnect. Powered by Recruitment Intelligence Models.</small>
+    </footer>
+</div>
+
+</body>
+</html>

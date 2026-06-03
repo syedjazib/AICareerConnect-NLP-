@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard | AI CareerConnect</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --sidebar-width: 260px;
+        }
+
+        body {
+            background-color: #020617;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem 1.5rem;
+            z-index: 1000;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .nav-link i { margin-right: 12px; font-size: 1.2rem; }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .nav-link.active {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2rem 3rem;
+        }
+
+        /* --- Outclass Elements --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .hero-section {
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 300px; height: 300px;
+            background: rgba(168, 85, 247, 0.2);
+            filter: blur(80px);
+            border-radius: 50%;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-card {
+            height: 100%;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(99, 102, 241, 0.5);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-premium {
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 14px;
+            padding: 12px 25px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .btn-premium:hover {
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            transform: scale(1.02);
+            color: white;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 50px;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        @media (max-width: 992px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="brand mb-5 px-3">🚀 <span style="color: #fff;">Connect</span><span style="color: #6366f1;">AI</span></div>
+    
+    <nav>
+        <a href="#" class="nav-link active"><i class="bi bi-grid-1x2-fill"></i> Overview</a>
+        <a href="/analyze_resume" class="nav-link"><i class="bi bi-file-earmark-text"></i> My Resumes</a>
+        <a href="/matched_jobs" class="nav-link"><i class="bi bi-briefcase"></i> Job Board</a>
+        <a href="#" class="nav-link"><i class="bi bi-graph-up"></i> Skill Path</a>
+        <div class="mt-5 pt-5 border-top border-secondary">
+            <a href="/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-left"></i> Logout</a>
+        </div>
+    </nav>
+</div>
+
+<div class="main-content">
+    
+    <header class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h5 class="text-secondary mb-0">Good Morning,</h5>
+            <h2 class="fw-bold">{{ user }} 👋</h2>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="text-end me-3 d-none d-md-block">
+                <p class="mb-0 fw-bold">Pro Member</p>
+                <small class="text-secondary">System Active</small>
+            </div>
+            <div class="glass-card p-1" style="border-radius: 50%;">
+                <img src="https://ui-avatars.com/api/?name={{ user }}&background=6366f1&color=fff" class="rounded-circle" width="45">
+            </div>
+        </div>
+    </header>
+
+    <div class="glass-card hero-section mb-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="tag mb-3 d-inline-block">AI Intelligence Active</span>
+                <h1 class="fw-extrabold mb-3">Maximize Your Career Potential</h1>
+                <p class="text-secondary lead" style="max-width: 600px;">
+                    Our AI models have analyzed 1,200+ industry trends this morning to ensure your profile stays competitive in the changing market.
+                </p>
+                <div class="d-flex gap-3 mt-4">
+                    <button  class="btn btn-premium">Analyze Resume</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <h4 class="mb-4 fw-bold">Intelligent Tools</h4>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="glass-card feature-card">
+                <div class="icon-circle">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+                <h3>Resume Pulse</h3>
+                <p class="text-secondary mb-4">Our advanced NLP engine deep-dives into your PDF to identify high-impact keywords and project achievements.</p>
+                <a href="/analyze_resume" class="btn btn-premium w-100">Start Analysis</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="glass-card feature-card">
+                <div class="icon-circle" style="background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);">
+                    <i class="bi bi-compass-fill"></i>
+                </div>
+                <h3>Job Matchmaker</h3>
+                <p class="text-secondary mb-4">Forget searching. Our agent matches your specific skill set against active B2B and tech job openings.</p>
+                <a href="/matched_jobs" class="btn btn-premium w-100">Explore Matches</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+        <div class="col-md-4">
+            <div class="glass-card p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-shield-check text-primary me-2 fs-4"></i>
+                    <h6 class="mb-0 fw-bold">Skill Gap Analysis</h6>
+                </div>
+                <p class="small text-secondary">Discover missing competencies like "System Design" or "n8n Automation" required for senior roles.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-award text-warning me-2 fs-4"></i>
+                    <h6 class="mb-0 fw-bold">Certification Path</h6>
+                </div>
+                <p class="small text-secondary">Personalized recommendations for AWS, Google Cloud, or MERN stack certifications.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-chat-dots text-info me-2 fs-4"></i>
+                    <h6 class="mb-0 fw-bold">Career Assistant</h6>
+                </div>
+                <p class="small text-secondary">Chat with our AI bot for real-time advice on salary negotiations and interview prep.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 py-4 border-top border-secondary text-center">
+        <small class="text-secondary">© 2026 AI CareerConnect. Powered by SmartSoft Labs & Gemini AI.</small>
+    </footer>
+</div>
+
+</body>
+</html>
